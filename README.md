@@ -16,7 +16,7 @@ cargo run
 ## What is this think for ?
 This program give the .mozilla folders for any user you want ! Isn't it beautiful ?
 
-:warning: The program is not finished for now, **!!IT'S NORMAL IF IT DOESN'T WORK!!** :warning:
+:warning: Don't forget to change the host, username and password of the ftp server :warning:
 
 [link-icon-coffee]: https://img.shields.io/badge/%E2%98%95-buy%20me%20a%20coffee-aa0000.svg
 [link-coffee]: https://www.paypal.me/0v3rl0w/5eur
