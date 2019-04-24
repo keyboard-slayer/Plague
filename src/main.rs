@@ -61,6 +61,6 @@ fn main() {
         .arg("--user")
         .arg("username:password")
         .spawn()
-        .expect("Failed to execute");*/
+        .expect("Failed to execute");
     }
 }
