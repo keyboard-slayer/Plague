@@ -1,4 +1,4 @@
-# Eternal-Affliction
+# Plague
 ![GitHub](https://img.shields.io/github/license/0v3rl0w/Eternal-Affliction.svg) ![GitHub last commit](https://img.shields.io/github/last-commit/0v3rl0w/Eternal-Affliction.svg)
 
 [![Donate][link-icon-coffee]][link-coffee] [![Donate][link-icon-computer]][link-computer]
